@@ -70,4 +70,9 @@ void plus_str(char str[], int n){
     }
 }
 
+void podsrtoka(char str[]){
+    fstream fi;                                      //n - to chto nado del
+    fi.open("test.txt");                             //i - kol-vo vsex strok
+    int i = add_m(&fi);
+}
 
