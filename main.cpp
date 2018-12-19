@@ -4,11 +4,12 @@
 using namespace std;
 
 int main(int argc, char* argv[]){
-    vivod_v_cmd();
-    dobavl("adsjop");
-    plus_str("ijads", 3);
-    del(4);
-    podsrtoka("ij");
+    char * filename = "test.txt";
+    vivod_v_cmd(filename);
+    dobavl(filename, "adsjop");
+    plus_str(filename, "ijads", 3);
+    del(filename, 4);
+    podsrtoka(filename, "ij");
 
     return 0;
 }
