@@ -70,9 +70,43 @@ void plus_str(char str[], int n){
     }
 }
 
+bool chek_bool(bool trigers[], int k){
+	for(int i = 0; i != k; i++){
+		if(trigers[i] == false){
+			for(int j = 0; j != k; j++) {
+				trigers[j] = false;
+            }
+			return false;
+		}
+	}
+	return true;
+}
+
+void vivod_podstr(bool trigers[], int dlina_str, int ppp){
+	cout << mass[ppp];
+    for(int i = 0; i != dlina_str; i++) {
+        trigers[i] = false;
+    }
+	for(int j = 0; j != dlina_str; j++){
+		//cout << mass[ppp];
+        cout << ppp << endl;
+	}
+}
+
 void podsrtoka(char str[]){
-    fstream fi;                                      //n - to chto nado del
-    fi.open("test.txt");                             //i - kol-vo vsex strok
-    int i = add_m(&fi);
+    fstream fi;
+    fi.open("test.txt");
+    int countOfStrok = add_m(&fi);
+    int sizeOfJopa = strlen(str);
+    char *buffer = NULL;
+    for(int i = 0; i < countOfStrok; i++) {
+        buffer = strstr(mass[i], str);
+        if(buffer == NULL) {
+            cout << "Podstroka not found" << endl;
+        } 
+        else {
+            cout << mass[i] << endl;
+        }
+    }    
 }
 
