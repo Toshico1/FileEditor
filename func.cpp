@@ -7,7 +7,32 @@
 
 using namespace std;
 
-char mass[500][500] = {};
+bool massChek = false;
+
+int massSize = 500;
+char **mass = new char*[massSize];
+bool makeMass(){ //pls do me
+	for (int i = 0; i < massSize; i++){
+		mass[i] = new char[massSize];
+	}
+	
+	massChek = true;
+}
+
+
+char** resizeMass(){
+	int n_massSize = 2 * massSize;
+	char **n_mass = new char*[n_massSize];
+	
+	for (int i = 0; i < massSize; i++){
+		n_mass[i] = new char[n_massSize];
+		strcpy(n_mass[i], mass[i]); 
+		delete [] mass[i];
+	}
+	delete [] mass;
+	
+	return n_mass;
+}
 
 void vivod_v_cmd(char * filename){
     fstream f;
@@ -25,7 +50,10 @@ void vivod_v_cmd(char * filename){
 int add_m(fstream *fi){
     int i(0);
     while(!fi->eof()){
-        fi->getline(mass[i],498);
+		if(i == massSize-1){
+			mass = resizeMass();
+		}
+        fi->getline(mass[i],massSize);
         i++;
     }
     return i;
@@ -86,4 +114,3 @@ void podsrtoka(char * filename, char str[]){
         }
     }    
 }
-
