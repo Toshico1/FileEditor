@@ -7,11 +7,41 @@
 
 using namespace std;
 
-char mass[500][500] = {};
+bool massChek = false;
 
-void vivod_v_cmd(){
+int massSize = 500;
+char **mass = new char*[massSize];
+bool makeMass(){ //pls do me
+	for (int i = 0; i < massSize; i++){
+		mass[i] = new char[massSize];
+	}
+	
+	massChek = true;
+}
+
+/*
+int getMassSize() {
+
+}
+*/
+
+char** resizeMass(){
+	int n_massSize = 2 * massSize;
+	char **n_mass = new char*[n_massSize];
+	
+	for (int i = 0; i < massSize; i++){
+		n_mass[i] = new char[n_massSize];
+		strcpy(n_mass[i], mass[i]); 
+		delete [] mass[i];
+	}
+	delete [] mass;
+	
+	return n_mass;
+}
+
+void vivod_v_cmd(char * filename){
     fstream f;
-    f.open("test.txt", ios::in);
+    f.open(filename, ios::in);
     int i(1);
     char str[256] = {};
     while(!f.eof()){
@@ -25,26 +55,29 @@ void vivod_v_cmd(){
 int add_m(fstream *fi){
     int i(0);
     while(!fi->eof()){
-        fi->getline(mass[i],498);
+		if(i == massSize-1){
+			mass = resizeMass();
+		}
+        fi->getline(mass[i],massSize);
         i++;
     }
     return i;
 }
 
-void dobavl(char slovo[]){
+void dobavl(char * filename, char slovo[]){
     fstream fi;
-    fi.open("test.txt", ios::app);
+    fi.open(filename, ios::app);
     fi << slovo;
     fi.close();
 }
 
-void del(int n){
+void del(char * filename, int n){
     fstream fi;                                      //n - to chto nado del
-    fi.open("test.txt");                             //i - kol-vo vsex strok
+    fi.open(filename);                             //i - kol-vo vsex strok
     int i = add_m(&fi); //add file info to mass      //j - chetchik dla mass
     int j(0);
     fi.close();
-    fi.open("test.txt", ios::trunc | ios::out);
+    fi.open(filename, ios::trunc | ios::out);
     while(j != i-1){
         if(j+1 == n)
             j++;
@@ -53,13 +86,13 @@ void del(int n){
     }
 }
 
-void plus_str(char str[], int n){
+void plus_str(char * filename, char str[], int n){
     fstream fi;                                      //n - to chto nado del
-    fi.open("test.txt");                             //i - kol-vo vsex strok
+    fi.open(filename);                             //i - kol-vo vsex strok
     int i = add_m(&fi); //add file info to mass      //j - chetchik dla mass
     int j(0);
     fi.close();
-    fi.open("test.txt", ios::trunc | ios::out);
+    fi.open(filename, ios::trunc | ios::out);
     while(j+1 != i){
         if(j+1 == n){
             fi << str;
@@ -70,32 +103,9 @@ void plus_str(char str[], int n){
     }
 }
 
-bool chek_bool(bool trigers[], int k){
-	for(int i = 0; i != k; i++){
-		if(trigers[i] == false){
-			for(int j = 0; j != k; j++) {
-				trigers[j] = false;
-            }
-			return false;
-		}
-	}
-	return true;
-}
-
-void vivod_podstr(bool trigers[], int dlina_str, int ppp){
-	cout << mass[ppp];
-    for(int i = 0; i != dlina_str; i++) {
-        trigers[i] = false;
-    }
-	for(int j = 0; j != dlina_str; j++){
-		//cout << mass[ppp];
-        cout << ppp << endl;
-	}
-}
-
-void podsrtoka(char str[]){
+void podsrtoka(char * filename, char str[]){
     fstream fi;
-    fi.open("test.txt");
+    fi.open(filename);
     int countOfStrok = add_m(&fi);
     int sizeOfJopa = strlen(str);
     char *buffer = NULL;
@@ -109,4 +119,3 @@ void podsrtoka(char str[]){
         }
     }    
 }
-
