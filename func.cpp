@@ -19,6 +19,11 @@ bool makeMass(){ //pls do me
 	massChek = true;
 }
 
+/*
+int getMassSize() {
+
+}
+*/
 
 char** resizeMass(){
 	int n_massSize = 2 * massSize;
