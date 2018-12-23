@@ -1,8 +1,7 @@
 str1
 str2
-n_str
 str4
+zeleno glazoe taxi
 str5
 str6
-
 
