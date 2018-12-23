@@ -7,11 +7,50 @@
 
 using namespace std;
 
-char mass[500][500] = {};
+int valueFStrok(){
+    fstream f("test.txt");
+    int i = 0;
+    while(!f.eof()){
+        char c;
+        f.get(c);
+        if (c == '\n')
+            i++;
+    }
+    return i;
+}
 
-void vivod_v_cmd(){
+bool massChek = false;
+
+int massSize = valueFStrok()+3;
+char **mass = new char*[massSize];
+
+bool makeMass(){ //pls do me
+	for (int i = 0; i < massSize; i++){
+		mass[i] = new char[massSize];
+	}
+	
+	massChek = true;
+}
+
+
+
+char** resizeMass(){
+	int n_massSize = 2 * massSize;
+	char **n_mass = new char*[n_massSize];
+	
+	for (int i = 0; i < massSize; i++){
+		n_mass[i] = new char[n_massSize];
+		strcpy(n_mass[i], mass[i]); 
+		delete [] mass[i];
+	}
+	delete [] mass;
+	
+	return n_mass;
+}
+
+void vivod_v_cmd(char * filename){
     fstream f;
-    f.open("test.txt", ios::in);
+    f.open(filename, ios::in);
     int i(1);
     char str[256] = {};
     while(!f.eof()){
@@ -25,41 +64,45 @@ void vivod_v_cmd(){
 int add_m(fstream *fi){
     int i(0);
     while(!fi->eof()){
-        fi->getline(mass[i],498);
+		if(i == massSize-1){
+			mass = resizeMass();
+		}
+        fi->getline(mass[i],massSize);
         i++;
     }
     return i;
 }
 
-void dobavl(char slovo[]){
+void dobavl(char * filename, char slovo[]){
     fstream fi;
-    fi.open("test.txt", ios::app);
-    fi << slovo;
+    fi.open(filename, ios::app);
+    fi << endl << slovo;
     fi.close();
 }
 
-void del(int n){
+void del(char * filename, int n){
     fstream fi;                                      //n - to chto nado del
-    fi.open("test.txt");                             //i - kol-vo vsex strok
+    fi.open(filename);                             //i - kol-vo vsex strok
     int i = add_m(&fi); //add file info to mass      //j - chetchik dla mass
     int j(0);
     fi.close();
-    fi.open("test.txt", ios::trunc | ios::out);
+    fi.open(filename, ios::trunc | ios::out);
     while(j != i-1){
         if(j+1 == n)
             j++;
         fi << mass[j] << endl;
         j++;
     }
+
 }
 
-void plus_str(char str[], int n){
+void plus_str(char * filename, char str[], int n){
     fstream fi;                                      //n - to chto nado del
-    fi.open("test.txt");                             //i - kol-vo vsex strok
+    fi.open(filename);                             //i - kol-vo vsex strok
     int i = add_m(&fi); //add file info to mass      //j - chetchik dla mass
     int j(0);
     fi.close();
-    fi.open("test.txt", ios::trunc | ios::out);
+    fi.open(filename, ios::trunc | ios::out);
     while(j+1 != i){
         if(j+1 == n){
             fi << str;
@@ -68,11 +111,23 @@ void plus_str(char str[], int n){
         fi << mass[j] << endl;
         j++;
     }
+
+
 }
 
-void podsrtoka(char str[]){
-    fstream fi;                                      //n - to chto nado del
-    fi.open("test.txt");                             //i - kol-vo vsex strok
-    int i = add_m(&fi);
+void podsrtoka(char * filename, char str[]){
+    fstream fi;
+    fi.open(filename);
+    int countOfStrok = add_m(&fi);
+    int sizeOfJopa = strlen(str);
+    char *buffer = NULL;
+    for(int i = 0; i < countOfStrok; i++) {
+        buffer = strstr(mass[i], str);
+        if(buffer == NULL) {
+            cout << "Podstroka not found" << endl;
+        } 
+        else {
+            cout << mass[i] << endl;
+        }
+    }    
 }
-

@@ -1,9 +1,9 @@
 CC=g++ # указываем компилятор
 LDFLAGS= # флаги линковщика
-CFLAGS=-c # флаги компилятора
+CFLAGS=-c  # флаги компилятора
 SOURCES= main.cpp func.cpp # список исходников
 OBJECTS=$(SOURCES:.c=.o)
-TARGET=fileWork  # имя бинарника
+TARGET= main # имя бинарника
 
 all: $(TARGET)
     
