@@ -1,34 +1,23 @@
 #include <iostream>
 #include "func.h"
 #include <fstream>
+
 using namespace std;
 
 int main(int argc, char* argv[]){
-
-
-vivod_v_cmd();
-//dobavl("ETO STROKA");
-//del(3);
-//plus_str("zeleno glazoe taxi", 4);
+	char * filename = "test.txt";
+	makeMass(); 
+	if (massChek == true){
+		vivod_v_cmd(filename);
+		dobavl(filename, "111");
+		vivod_v_cmd(filename);
+		plus_str(filename, "n_str", 3); //
+		vivod_v_cmd(filename);
+		del(filename, 4); //
+		vivod_v_cmd(filename);
+		podsrtoka(filename, "st"); //
+		valueFStrok();
+	}else{
+		cout << "mass didnt iniciliz";}
+    return 0;
 }
-/*
-str1
-str2
-str3
-str4
-str5
-str6
-*/
-
-/*
-1. Вывести файл в консоль, печатая номера строк. +
-
-2. Дописать указанную строку в конец файла. +
-
-3. Перезаписать файл, удалив строку с указанным номером. +
-
-4. Перезаписать файл, вставив указанную строку перед строкой с указанным номером. +
-
-В мейне привести пример использования каждой функции. +
-
-Программа должна состоять из трех файлов и собираться с помощью make.*/
