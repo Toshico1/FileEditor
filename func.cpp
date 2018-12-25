@@ -46,9 +46,7 @@ void filePlusStr(char* filename, char* str){
     f << str;
 
 }
-void searchOfStr(char* filename, char* str){
 
-}
 void delSomeStr(char* filename, int delStr){
     fstream f;
     f.open(filename);
@@ -153,6 +151,9 @@ void addSomeStr(char* filename, char* str, int N){
 
 
 void searchOfStr(char* filename, char* str){
-    /*char *buffer = NULL;
-    buffer = strstr(mass[i], str)*/
+    /*fstream f;
+    f.open(filename);
+    */
+    
+        
 }

@@ -9,6 +9,7 @@ int main(int argc, char const *argv[])
     //filePlusStr(filename, "test_str");
     //delSomeStr(filename, 5); 
     //addSomeStr(filename, "that's new str!", 5);
+    searchOfStr(filename, "tr");
     coutFile(filename);
     return 0;
 }
