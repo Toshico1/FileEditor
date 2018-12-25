@@ -1,144 +1,158 @@
-#include <cstdlib>
-#include <cstring>
 #include <iostream>
-#include "func.h"
-#include <cstdlib>
 #include <fstream>
-
+#include <cstring>
+#include "func.h"
 using namespace std;
 
-int valueFStrok(){
-    fstream f("test.txt");
+int valueStrFile(){
+    fstream f;
+    f.open("test.txt");
     int i = 0;
+    char c;
+    f.get(c);
     while(!f.eof()){
-        char c;
-        f.get(c);
-        if (c == '\n')
+        if(c == '\n'){
             i++;
+        }
+        f.get(c);
     }
-    return i;
+    return (i+1);
 }
 
-bool massChek = false;
-
-int massSize = valueFStrok()+3;
-char **mass = new char*[massSize];
-
-bool makeMass(){ //pls do me
-	for (int i = 0; i < massSize; i++){
-		mass[i] = new char[massSize];
-	}
-	
-	massChek = true;
-}
-
-
-
-char** resizeMass(){
-	int n_massSize = 2 * massSize;
-	char **n_mass = new char*[n_massSize];
-	
-	for (int i = 0; i < massSize; i++){
-		n_mass[i] = new char[n_massSize];
-		strcpy(n_mass[i], mass[i]); 
-		delete [] mass[i];
-	}
-	delete [] mass;
-	
-	return n_mass;
-}
-
-void vivod_v_cmd(char * filename){
+void coutFile(char* filename){
     fstream f;
     f.open(filename, ios::in);
-    int i(1);
-    char str[256] = {};
+    char c;
+    int i = 1;
+    cout << i << ". "; //для первой строки
+    i++;
+    f.get(c);
     while(!f.eof()){
-        f.getline(str,massSize);
-        cout << i << ". " << str << endl;
-        i++;
-    }
-    f.close();
-}
-
-int add_m(fstream *fi){
-    int i(0);
-    while(!fi->eof()){
-		if(i == massSize-1){
-			mass = resizeMass();
-		}
-        fi->getline(mass[i],massSize);
-        i++;
-    }
-    return i;
-}
-
-void dobavl(char * filename, char slovo[]){
-    fstream fi;
-    fi.open(filename, ios::app);
-    fi << endl << slovo;
-    fi.close();
-}
-
-void del(char * filename, int n){
-    fstream fi;                                      //n - to chto nado del
-    fi.open(filename);                             //i - kol-vo vsex strok
-    int i = add_m(&fi); //add file info to mass      //j - chetchik dla mass
-    int j(0);
-    fi.close();
-    fi.open(filename, ios::out);
-    while(j != i){
-        if(j+1 == n)
-            j++;
-        if(j == i-1){
-            fi << mass[j];
+        if (c == '\n'){ //счет для всех последующих
+           cout << c;
+           cout << i << ". "; 
+           i++;
         }else{
-            fi << mass[j] << endl;
-        } 
-        j++;
-    }
-
-}
-
-void plus_str(char * filename, char str[], int n){
-    fstream fi;                                      //n - to chto nado del
-    fi.open(filename);                             //i - kol-vo vsex strok
-    int i = add_m(&fi); //add file info to mass      //j - chetchik dla mass
-    int j(0);
-    fi.close();
-    fi.open(filename, ios::trunc | ios::out);
-    while(j != i){
-        if(j+1 == n){
-            fi << str;
-            fi << endl;
+           cout << c; 
         }
-        if(j+1 == i){
-            fi << mass[j];
-        }else{
-            fi << mass[j] << endl;
-        } 
-        j++;
+        f.get(c);
     }
-
+    cout << endl;
+}
+void filePlusStr(char* filename, char* str){
+    fstream f;
+    f.open(filename, ios::app);
+    f << endl;
+    f << str;
 
 }
+void searchOfStr(char* filename, char* str){
 
-void podsrtoka(char * filename, char str[]){
-    fstream fi;
-    fi.open(filename);
-    int countOfStrok = add_m(&fi);
-    int sizeOfJopa = strlen(str);
-    char *buffer = NULL;
-    for(int i = 0; i < countOfStrok; i++) {
-        buffer = strstr(mass[i], str);
-        if(buffer == NULL) {
-        } 
-        else {
-            cout << i+1 << ". ";
-            for(int j = 0; j != sizeOfJopa;j++){
-                cout << (char)toupper(str[j]);
+}
+void delSomeStr(char* filename, int delStr){
+    fstream f;
+    f.open(filename);
+    ofstream new_f("vrem.txt");
+    int allStr = valueStrFile();
+   if((delStr != 1) && (delStr != allStr)){
+        int i = 1, 
+            start = 0,
+            finish = 0;
+        
+        while(i != delStr){ //ищем нашу пред. строчку
+            char c;
+            f.get(c);    
+            if(c == '\n'){ //тут мы на нее вываливаемся
+                i++;
             }
-            cout << endl;
+            start = f.tellg(); //когда вываливаемся по условию 
+                                //сохранияем начала нашей delStr
         }
-    }    
+        char cf;
+        while(cf != '\n'){
+            f.get(cf);
+            finish = f.tellg(); //сохраняем конец нашей delStr
+        }
+        char cn;
+        f.seekg(0, ios::beg);
+        f.get(cn); //для коректного вывода(я очень хочу спать 2:10)
+        while(!f.eof()){
+            if(f.tellg() == start)
+                f.seekg(finish, ios::beg);
+            new_f << cn;
+            f.get(cn);
+        }
+    }else if(delStr == 1){ //отдельный алгоритм под удаление 1
+        char c;
+        f.get(c);
+        while(c != '\n'){
+            f.get(c);
+        }
+        f.get(c);
+        while(!f.eof()){
+            new_f << c;
+            f.get(c);
+        }
+    }else if(delStr == allStr){
+        int strNow = 1;
+        char c;
+        f.get(c);
+        while(!f.eof()){
+            if(strNow != delStr){
+                if(c == '\n'){
+                    strNow++;
+                    if(strNow == delStr)  //да, это костыль, я не могу его фиксануть 2:35
+                        break;
+                }
+                new_f << c;
+                f.get(c);  
+            }else{
+                break;
+                }
+            }
+    }
+    int del = remove("test.txt");
+    int rena = rename("vrem.txt", filename); 
+}
+
+
+void addSomeStr(char* filename, char* str, int N){
+    if(N > valueStrFile() || (N < 1)){
+        cout << "Line with this number does not exist. By this you can't add in front of her" << endl;
+    }else{
+        fstream f;
+        f.open(filename);
+        ofstream new_f("vrem.txt");
+        char c;
+        if(N == 1){ //отдельный обработчик для 1 строки (на часа 3)
+            new_f << str << endl;
+            f.get(c); 
+            while(!f.eof()){
+            new_f << c;
+            f.get(c);
+            }
+        }else{
+            int i = 0; //если я начну обьяснять сейчас что тут происходит, то напишу
+            while(i != N-1){//войну и мир, но на самом деле тут все довольно просто
+                char c;
+                f.get(c);    
+                if(c == '\n'){ 
+                    i++;
+                }
+                new_f << c;
+            }
+            new_f << str << endl;
+            f.get(c); 
+            while(!f.eof()){ 
+                new_f << c;
+                f.get(c);
+            }
+        }
+    }
+}
+
+
+void searchOfStr(char* filename, char* str){
+    /*char *buffer = NULL;
+    buffer = strstr(mass[i], str)*/
 }

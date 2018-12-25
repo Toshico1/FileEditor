@@ -1,13 +1,26 @@
-#ifndef __FUNC__
-#define __FUNC__
+void coutFile(char* filename);//+
+void filePlusStr(char* filename, char* str);//+
+void searchOfStr(char* filename, char* str);
+void delSomeStr(char* filename, int delStr);//+
+void addSomeStr(char* filename, char* str, int N);//+
 
-#include <fstream>
-extern bool massChek;
-int valueFStrok();
-bool makeMass();
-void vivod_v_cmd(char * filename);
-void dobavl(char * filename, char slovo[]);
-void del(char * filename, int n);
-void plus_str(char * filename, char str[], int n);
-void podsrtoka(char * filename, char str[]);
-#endif
+
+
+
+/*Реализовать модуль для работы с файлами.
+
+Функции модуля принимают первым аргументом указатель на FILE.
+
+Модуль должен содержать следующие функции:
+
+1. Вывести файл в консоль, печатая номера строк.
+
+2. Дописать указанную строку в конец файла.
+
+3. Вывести строки (с их номерами), в которых есть указанная подстрока, причем саму подстроку вывести в верхнем регистре.
+
+4. Перезаписать файл, удалив строку с указанным номером.
+
+5. Перезаписать файл, вставив указанную строку перед строкой с указанным номером.
+
+В мейне привести пример использования каждой функции.*/
